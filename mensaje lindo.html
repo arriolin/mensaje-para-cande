@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensaje para Cande</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 80vw;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .button-green {
+            background-color: green;
+            transition: transform 0.3s ease;
+        }
+        .button-red {
+            background-color: red;
+        }
+        .message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .happy-face {
+            display: block;
+            margin: 0 auto;
+        }
+        .happy-message {
+            display: none;
+            font-size: 28px;
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 20px;
+            position: relative;
+        }
+        .happy-message::before {
+            content: '🎉';
+            font-size: 50px;
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .message-red {
+            font-size: 24px;
+            color: white;
+            background-color: red;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+            width: auto;
+            max-width: 80%;
+            text-align: center;
+        }
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .confetti span {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff0;
+            border-radius: 50%;
+            animation: confetti 1s infinite;
+        }
+        @keyframes confetti {
+            0% {
+                transform: translateY(-100px) rotate(0);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <svg class="happy-face" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="120" height="120">
+            <circle cx="32" cy="32" r="30" fill="#FFEB3B"/>
+            <circle cx="20" cy="24" r="4" fill="#FFF"/>
+            <circle cx="44" cy="24" r="4" fill="#FFF"/>
+            <path d="M20 40c4 4 12 4 16 0" stroke="#FFF" stroke-width="4" fill="none"/>
+        </svg>
+        <div class="message">
+            Holaa Cande, ¿sabías que sos la novia más hermosa y buena que existe?
+        </div>
+        <button class="button button-green" id="yesButton">Sí, te creo</button>
+        <button class="button button-red" id="noButton">No te creo</button>
+        <div id="happyMessage" class="happy-message">
+            ¡Bieeeeeeeeeeeen! <br> Te amo, cabeza de tacho ❤️
+        </div>
+        <div id="messageRed" class="message-red">No te creo</div>
+        <div id="confetti" class="confetti"></div>
+    </div>
+
+    <script>
+        let noClickCount = 0;
+        let scaleFactor = 1.2; // Factor de escala inicial
+
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const messageRed = document.getElementById('messageRed');
+        const happyMessage = document.getElementById('happyMessage');
+        const confetti = document.getElementById('confetti');
+
+        const messages = [
+            'Segura',
+            'Súper segura?',
+            'Recontra segura?',
+            'Re mil segura',
+            'Súper duper segura?',
+            '¿Segura que no me crees?',
+            'Dale, créeme',
+            'Créemeee',
+            '¿Por qué no me crees?'
+        ];
+
+        noButton.addEventListener('click', () => {
+            noClickCount++;
+            yesButton.style.transform = `scale(${scaleFactor})`;
+            scaleFactor *= 1.2; // Incrementar el factor de escala en un 20%
+
+            if (noClickCount >= messages.length) {
+                noClickCount = 0;
+            }
+
+            messageRed.textContent = messages[noClickCount];
+        });
+
+        yesButton.addEventListener('click', () => {
+            happyMessage.style.display = 'block';
+            generateConfetti();
+        });
+
+        function generateConfetti() {
+            confetti.innerHTML = ''; // Limpiar confeti anterior
+            for (let i = 0; i < 100; i++) {
+                const span = document.createElement('span');
+                span.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                span.style.left = `${Math.random() * 100}%`;
+                span.style.top = `${Math.random() * 100}%`;
+                span.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                span.style.animationDelay = `${Math.random() * 2}s`;
+                span.style.transform = `translateX(-50%) translateY(-50%)`;
+                confetti.appendChild(span);
+            }
+        }
+    </script>
+</body>
+</html>
